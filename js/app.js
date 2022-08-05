@@ -56,35 +56,64 @@ function createPostContent(desc, imgPost){
     return descPost, imagePost;
 }
 
-function createPostFooter(likes){
+function createPostFooter(id, likes){
     const postFooter = document.createElement('div');
     postFooter.classList.add('post__footer');
-    postFooter.innerHTML = 
+
+    const likesFooter = document.createElement('div');
+    likesFooter.classList.add('likes', 'js-likes');
+
+    const likeCta = document.createElement('div');
+    likeCta.classList.add('likes__cta');
+
+    const likeButton = document.createElement('a');
+    likeButton.classList.add('like-button',  'js-like-button');
+    likeButton.dataset.postid = id;
+    likeButton.innerHTML = 
     `
-        <div class="likes js-likes">
-            <div class="likes__cta">
-                <a class="like-button  js-like-button" href="#" data-postid="1">
-                    <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
-                    <span class="like-button__label">Mi Piace</span>
-                </a>
-            </div>
-            <div class="likes__counter">
-                Piace a <b id="like-counter-1" class="js-likes-counter">${likes}</b> persone
-            </div>
-        </div> 
+        <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
+        <span class="like-button__label">Mi Piace</span>
     `;
+    const addLike = likeButton.addEventListener('click', function() {
+        if(!postLiked.includes(id)){
+            postLiked.push(id);
+            likeButton.classList.add('like-button--liked');
+            likeCounter.innerHTML = 
+            `
+                Piace a <b id="like-counter-1" class="js-likes-counter">${++likes}</b> persone
+            `;
+        }
+        console.log(postLiked)
+    });
+
+    const likeCounter = document.createElement('div');
+    likeCounter.classList.add('likes__counter');
+    likeCounter.innerHTML = 
+    `
+        Piace a <b id="like-counter-1" class="js-likes-counter">${likes}</b> persone
+    `;
+
+    likeCta.append(likeButton);
+    likesFooter.append(likeCta);
+    likesFooter.append(likeCounter);
+    postFooter.append(likesFooter);
+
     return postFooter;
 }
+
+
+const postLiked = []
 
 for(let key in posts){
     const value = posts[key];
 
     const headerPost = createPostHeader(value.aut.nameProf, value.aut.imgProf);
     const contentPost = createPostContent(value.desc, value.imgPost);
-    const footerPost = createPostFooter(value.likes);
+    const footerPost = createPostFooter(value.id, value.likes);
 
     const postContainer = document.createElement('div');
     postContainer.classList.add('post');
     postContainer.append(headerPost, contentPost, footerPost);
+
     containerPost.append(postContainer);
 }
