@@ -1,8 +1,9 @@
-function createPost(id, nameProf, imgProf, day, month, year, desc, imgPost, likes){
+function createPost(id, nameProf, surNameProf, imgProf, day, month, year, desc, imgPost, likes){
     const post = {
         id,
         aut: {
             nameProf,
+            surNameProf,
             imgProf
         },
         date: {
@@ -24,31 +25,55 @@ const currentYear = new Date().getFullYear();
 const desc = 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. In fugiat officiis qui consectetur a magnam?';
 
 const posts = [
-    createPost(1, 'Gianni Colombo', 'https://picsum.photos/70/70', 10, 08, 2022, desc, 'https://picsum.photos/600/540', 100),
-    createPost(2, 'Marco Schiaccio', 'https://picsum.photos/70/70', 20, 05, 2022, desc, 'https://picsum.photos/600/540', 77),
-    createPost(3, 'Fiero Palladina', 'https://picsum.photos/70/70', 30, 03, 2022, desc, 'https://picsum.photos/600/540', 23),
-    createPost(4, 'Ciacco Resto', 'https://picsum.photos/70/70', 20, 03, 2022, desc, 'https://picsum.photos/600/540', 99),
+    createPost(1, 'Gianni', 'Colombo', '', 10, 08, 2022, desc, 'https://picsum.photos/600/540', 100),
+    createPost(2, 'Marco', 'Schiaccio', 'https://picsum.photos/70/70', 20, 05, 2022, desc, 'https://picsum.photos/600/540', 77),
+    createPost(3, 'Fiero', 'Palladina', '', 30, 03, 2022, desc, 'https://picsum.photos/600/540', 23),
+    createPost(4, 'Ciacco', 'Resto', 'https://picsum.photos/70/70', 20, 03, 2022, desc, 'https://picsum.photos/600/540', 99),
 ]
 
 const containerPost = document.getElementById('container');
 
-function createPostHeader(nameProf, imgProf, day, month, year){
+function createPostHeader(nameProf, surNameProf, imgProf, day, month, year){
+    let nameIn, surNameIn;
     const postHeader = document.createElement('div');
     postHeader.classList.add('post__header');
     const date = [day, month, year].join('/');
-    postHeader.innerHTML = 
+
+    if(!imgProf){
+        nameIn = nameProf.split('');
+        surNameIn = surNameProf.split('');
+        const imgProf = nameIn[0] + surNameIn[0];
+        postHeader.innerHTML = 
     `
         <div class="post-meta">                    
                 <div class="post-meta__icon">
-                    <img class="profile-pic" src="${imgProf}" alt="${nameProf}">                    
+                    <span class="profile-pic-name">
+                        ${imgProf}
+                    </span>                 
                 </div>
                 <div class="post-meta__data">
-                    <div class="post-meta__author">${nameProf}</div>
+                    <div class="post-meta__author">${nameProf} ${surNameProf}</div>
                     <div class="post-meta__time">${date}</div>
                 </div>                    
             </div>
         </div>
     `;
+    } else{
+        postHeader.innerHTML = 
+    `
+        <div class="post-meta">                    
+                <div class="post-meta__icon">
+                    <img class="profile-pic" src="${imgProf}" alt="${nameProf} ${surNameProf}">                    
+                </div>
+                <div class="post-meta__data">
+                    <div class="post-meta__author">${nameProf} ${surNameProf}</div>
+                    <div class="post-meta__time">${date}</div>
+                </div>                    
+            </div>
+        </div>
+    `;
+    }
+
     return postHeader;
 
 }
@@ -116,7 +141,7 @@ const postLiked = []
 for(let key in posts){
     const value = posts[key];
 
-    const headerPost = createPostHeader(value.aut.nameProf, value.aut.imgProf, value.date.day, value.date.month, value.date.year);
+    const headerPost = createPostHeader(value.aut.nameProf, value.aut.surNameProf, value.aut.imgProf, value.date.day, value.date.month, value.date.year);
     const contentPost = createPostContent(value.desc, value.imgPost);
     const footerPost = createPostFooter(value.id, value.likes);
 
