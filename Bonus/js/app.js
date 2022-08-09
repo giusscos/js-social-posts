@@ -18,10 +18,6 @@ function createPost(id, nameProf, surNameProf, imgProf, day, month, year, desc, 
     return post
 }
 
-const currentDay = new Date().getDate();
-const currentMonth = new Date().getMonth() + 1;
-const currentYear = new Date().getFullYear();
-
 const desc = 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. In fugiat officiis qui consectetur a magnam?';
 
 const posts = [
