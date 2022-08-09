@@ -60,22 +60,21 @@ function createPostHeader(nameProf, surNameProf, imgProf, day, month, year){
     `;
     } else{
         postHeader.innerHTML = 
-    `
-        <div class="post-meta">                    
-                <div class="post-meta__icon">
-                    <img class="profile-pic" src="${imgProf}" alt="${nameProf} ${surNameProf}">                    
+        `
+            <div class="post-meta">                    
+                    <div class="post-meta__icon">
+                        <img class="profile-pic" src="${imgProf}" alt="${nameProf} ${surNameProf}">                    
+                    </div>
+                    <div class="post-meta__data">
+                        <div class="post-meta__author">${nameProf} ${surNameProf}</div>
+                        <div class="post-meta__time">${date}</div>
+                    </div>                    
                 </div>
-                <div class="post-meta__data">
-                    <div class="post-meta__author">${nameProf} ${surNameProf}</div>
-                    <div class="post-meta__time">${date}</div>
-                </div>                    
             </div>
-        </div>
-    `;
+        `;
     }
 
     return postHeader;
-
 }
 
 function createPostContent(desc, imgPost){
@@ -116,8 +115,14 @@ function createPostFooter(id, likes){
             `
                 Piace a <b id="like-counter-1" class="js-likes-counter">${++likes}</b> persone
             `;
+        } else{
+            postLiked.shift(id);
+            likeButton.classList.remove('like-button--liked');
+            likeCounter.innerHTML = 
+            `
+                Piace a <b id="like-counter-1" class="js-likes-counter">${--likes}</b> persone
+            `;
         }
-        console.log(postLiked)
     });
 
     const likeCounter = document.createElement('div');
