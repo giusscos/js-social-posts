@@ -17,6 +17,10 @@ function createPost(id, nameProf, imgProf, day, month, year, desc, imgPost, like
     return post
 }
 
+const currentDay = new Date().getDate();
+const currentMonth = new Date().getMonth() + 1;
+const currentYear = new Date().getFullYear();
+
 const desc = 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. In fugiat officiis qui consectetur a magnam?';
 
 const posts = [
@@ -31,7 +35,7 @@ const containerPost = document.getElementById('container');
 function createPostHeader(nameProf, imgProf, day, month, year){
     const postHeader = document.createElement('div');
     postHeader.classList.add('post__header');
-    const date = [month, day, year].join('/');
+    const date = [day, month, year].join('/');
     postHeader.innerHTML = 
     `
         <div class="post-meta">                    
@@ -46,6 +50,7 @@ function createPostHeader(nameProf, imgProf, day, month, year){
         </div>
     `;
     return postHeader;
+
 }
 
 function createPostContent(desc, imgPost){
